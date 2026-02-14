@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    background:linear-gradient(#ff9ab5,#ff5f8f);
+    font-family:'Playfair Display',serif;
+    overflow:hidden;
+    text-align:center;
+    color:white;
+    transition:1s;
+}
+
+/* background malam */
+body.night{
+    background:radial-gradient(circle at top,#0c1445,#02030a);
+}
+
+/* judul */
+h1{
+    font-family:'Great Vibes',cursive;
+    font-size:70px;
+    margin-top:60px;
+    text-shadow:0 0 20px rgba(255,255,255,0.7);
+}
+
+/* amplop */
+.envelope{
+    margin:40px auto;
+    width:220px;
+    height:140px;
+    background:#ff4d88;
+    position:relative;
+    cursor:pointer;
+    border-radius:8px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+.flap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#ff79a8;
+    clip-path: polygon(0 0, 50% 55%, 100% 0);
+    transform-origin:top;
+    transition:0.7s;
+}
+.envelope.open .flap{
+    transform:rotateX(180deg);
+}
+
+/* popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.5s;
+}
+.popup.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* kertas binder */
+.paper{
+    width:420px;
+    max-width:90%;
+    padding:40px 35px;
+    border-radius:14px;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #f6ecd9,
+            #f6ecd9 28px,
+            #e6dbc4 29px
+        );
+    box-shadow:0 25px 60px rgba(0,0,0,0.4);
+    transform:scale(0.7);
+    transition:0.5s;
+}
+.popup.show .paper{
+    transform:scale(1);
+}
+
+.paper h2{
+    margin-top:0;
+    font-family:'Great Vibes',cursive;
+    color:#c85a7c;
+    font-size:44px;
+}
+.paper p{
+    font-style:italic;
+    color:#4a4034;
+    line-height:1.7;
+    font-size:18px;
+}
+
+.close{
+    margin-top:25px;
+    padding:10px 22px;
+    border:none;
+    border-radius:30px;
+    background:#ff5f8f;
+    color:white;
+    cursor:pointer;
+}
+
+/* benda jatuh */
+.fall{
+    position:absolute;
+    top:-40px;
+    font-size:24px;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    to{transform:translateY(110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<h1>Happy Valentine ❤️</h1>
+<p>please click the letter 💌</p>
+
+<div class="envelope" id="env" onclick="openEnvelope()">
+    <div class="flap"></div>
+</div>
+
+<div class="popup" id="popup">
+    <div class="paper">
+        <h2>for you mas sayang♡ </h2>
+        <p>
+            Thank u for being mine.
+            Semoga langkah kamu selalu ditemani hal baik,
+            tawa yang tulus, dan perasaan hangat.
+            Thank u for choosing me.
+            I love you more than anything mas❤️
+        </p>
+        <button class="close" onclick="closeLetter()">Tutup</button>
+    </div>
+</div>
+
+<script>
+let mode="rose";
+
+function openEnvelope(){
+    document.getElementById("env").classList.add("open");
+    document.getElementById("popup").classList.add("show");
+
+    // ubah ke malam
+    document.body.classList.add("night");
+
+    // ubah benda jatuh jadi bintang
+    mode="star";
+}
+
+function closeLetter(){
+    document.getElementById("popup").classList.remove("show");
+    document.getElementById("env").classList.remove("open");
+    document.body.classList.remove("night");
+     mode="rose";
+}
+
+/* animasi jatuh */
+function createFall(){
+    const f=document.createElement("div");
+    f.className="fall";
+    f.innerHTML = (mode==="rose") ? "🌸" : "⭐";
+    f.style.left=Math.random()*window.innerWidth+"px";
+    f.style.animationDuration=(4+Math.random()*4)+"s";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),8000);
+}
+setInterval(createFall,400);
+</script>
+
+</body>
+</html>
